@@ -1,59 +1,53 @@
-<div class="container-fluid my-4">
-  <!-- Título de la sección -->
+<div class="container-fluid my-3">
   <div class="row mb-3">
     <div class="col">
-      <h5 class="fw-bold">Resumen</h5>
+      <h4 class="fw-bold">Resumen</h4>
     </div>
   </div>
 
-  <!-- Tarjetas de estadísticas -->
   <div class="row g-3">
-    <!-- Finalizadas -->
     <div class="col-md-3">
-      <div class="rounded-3 border p-3 h-100 d-flex flex-column justify-content-center">
+      <div class="rounded-3 border p-3 h-100 d-flex flex-column justify-content-center bg-light box-shadow">
         <div class="d-flex align-items-center mb-2">
           <i class="bi bi-check-circle fs-3 text-success me-2"></i>
           <div>
-            <h6 class="mb-0 fw-bold">11 finalizadas</h6>
+            <h6 class="mb-0 fw-bold">11 Tareas finalizadas</h6>
             <small class="text-muted">en los últimos 7 días</small>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- Actualizadas -->
     <div class="col-md-3">
-      <div class="rounded-3 border p-3 h-100 d-flex flex-column justify-content-center">
+      <div class="rounded-3 border p-3 h-100 d-flex flex-column justify-content-center bg-light box-shadow">
         <div class="d-flex align-items-center mb-2">
           <i class="bi bi-arrow-repeat fs-3 text-primary me-2"></i>
           <div>
-            <h6 class="mb-0 fw-bold">18 actualizadas</h6>
+            <h6 class="mb-0 fw-bold">18 Tareas actualizadas</h6>
             <small class="text-muted">en los últimos 7 días</small>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- Creadas -->
     <div class="col-md-3">
-      <div class="rounded-3 border p-3 h-100 d-flex flex-column justify-content-center">
+      <div class="rounded-3 border p-3 h-100 d-flex flex-column justify-content-center bg-light box-shadow">
         <div class="d-flex align-items-center mb-2">
           <i class="bi bi-plus-circle fs-3 text-warning me-2"></i>
           <div>
-            <h6 class="mb-0 fw-bold">9 creadas</h6>
+            <h6 class="mb-0 fw-bold">9 Tareas creadas</h6>
             <small class="text-muted">en los últimos 7 días</small>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- Vencen pronto -->
     <div class="col-md-3">
-      <div class="rounded-3 border p-3 h-100 d-flex flex-column justify-content-center">
+      <div class="rounded-3 border p-3 h-100 d-flex flex-column justify-content-center bg-light box-shadow">
         <div class="d-flex align-items-center mb-2">
           <i class="bi bi-exclamation-triangle fs-3 text-danger me-2"></i>
           <div>
-            <h6 class="mb-0 fw-bold">0 vencen pronto</h6>
+            <h6 class="mb-0 fw-bold">0 Tareas vencen pronto</h6>
             <small class="text-muted">en los próximos 7 días</small>
           </div>
         </div>
@@ -61,24 +55,20 @@
     </div>
   </div>
 
-  <!-- Sección de Resumen de estado y Actividad reciente -->
   <div class="row g-3 mt-4">
-    <!-- Resumen de estado (con un gráfico de ejemplo) -->
     <div class="col-md-6">
-      <div class="rounded-3 border p-3 h-100">
+      <div class="rounded-3 border p-3 h-100 bg-light box-shadow">
         <h5 class="fw-bold">Resumen de estado</h5>
         <p class="mb-2">
           Obtén una instantánea del estado de tus tareas.
           <a routerLink="/tareas">Ver todas las tareas</a>
         </p>
-        <!-- Grafica pastel-->
          <app-chart-task></app-chart-task>
       </div>
     </div>
 
-    <!-- Actividad reciente -->
     <div class="col-md-6">
-      <div class="rounded-3 border p-3 h-100">
+      <div class="rounded-3 border p-3 h-100 bg-light box-shadow">
         <h5 class="fw-bold">Actividad reciente</h5>
         <p class="mb-3">
           Mantente al día de los cambios en todas tus tareas.
