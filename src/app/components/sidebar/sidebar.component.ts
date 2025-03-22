@@ -7,4 +7,7 @@ import { Component } from '@angular/core';
 })
 export class SidebarComponent {
 
+  prueba(): void{
+    console.log('prueba');
+  }
 }
