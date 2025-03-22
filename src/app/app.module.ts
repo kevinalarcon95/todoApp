@@ -3,7 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { BrandingComponent } from './components/branding/branding.component';
+import { LandingComponent } from './components/landing/landing.component';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { AllTasksComponent } from './components/categories/all-tasks/all-tasks.component';
 import { PendingTasksComponent } from './components/categories/pending-tasks/pending-tasks.component';
@@ -12,7 +12,7 @@ import { CompletedTasksComponent } from './components/categories/completed-tasks
 @NgModule({
   declarations: [
     AppComponent,
-    BrandingComponent,
+    LandingComponent,
     SidebarComponent,
     AllTasksComponent,
     PendingTasksComponent,
