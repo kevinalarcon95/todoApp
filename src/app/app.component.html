@@ -1,6 +1,13 @@
-<div class="d-flex">
-  <app-sidebar></app-sidebar>
-  <div class="container-fluid m-5 hv-100">
-    <router-outlet></router-outlet>
+<div class="container-fluid p-0">
+  <div class="row g-0">
+    <div class="col-md-3 col-lg-2">
+      <app-sidebar></app-sidebar>
+    </div>
+
+    <div class="col-md-9 col-lg-10 position-relative">
+      <div class="content rounded shadow-sm">
+        <router-outlet></router-outlet>
+      </div>
+    </div>
   </div>
 </div>

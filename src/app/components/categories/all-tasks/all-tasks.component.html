@@ -1,1 +1,72 @@
-<p>all-tasks works!</p>
+<form [formGroup]="taskForm">
+  <div class="content" [class.pushed]="isSidebarOpen">
+    <div class="row mb-5">
+      <div class="col-12 d-flex align-items-center gap-5">
+        <h1 class="task-title">Todas las tareas</h1>
+        <span class="task-count">{{ tasks.length }}</span>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-12 d-grid">
+        <button class="btn btn-outline-primary mb-3 d-grid d-flex flex-colum btn-create" (click)="openSidebar()">
+          <i class="bi bi-plus me-2"></i> Añadir nueva tarea
+        </button>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-12" *ngFor="let task of tasks; let i = index">
+        <div class="card mb-2 task-card">
+          <div class="card-body d-flex justify-content-between align-items-center">
+            <div class="d-flex flex-column">
+              <div class="form-check">
+                <input class="form-check-input task-check" type="checkbox" [id]="'task-' + i" [checked]="task.status === 'completed'" (change)="toggleTaskStatus(i)">
+                <label class="form-check-label" for="defaultCheck1" [class.text-decoration-line-through]="task.status === TaskStatus.Completed">
+                  {{ task.title }}
+                </label>
+              </div>
+            </div>
+
+            <div class="dropdown">
+              <button class="btn btn-light border-1 btn-more-action" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="bi bi-three-dots"></i>
+              </button>
+              <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton">
+                <li>
+                  <button class="dropdown-item" (click)="toggleTaskDetails(i)">Editar</button>
+                </li>
+                <li>
+                  <button class="dropdown-item text-danger" (click)="deleteTask(i)">Eliminar</button>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="card-body" *ngIf="selectedTaskIndex === i">
+            <p class="card-text"><strong>Descripción:</strong> {{ task.description || 'Sin descripción' }}</p>
+            <p class="card-text"><strong>Fecha de creación:</strong> {{ task.createdAt | date: 'dd/MM/yyyy' }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row sidebar-panel" [class.open]="isSidebarOpen">
+    <div class="col p-3">
+      <h5 class="mb-5">{{ taskTitle }}:</h5>
+      <button class="btn-close float-end" (click)="closeSidebar()"></button>
+      <div class="mb-3 ">
+        <input type="text" class="form-control" formControlName="title" id="listName"
+          placeholder="Titulo de la tarea" />
+        <textarea name="description" id="description" placeholder="Descripción" class="form-control my-3"
+          formControlName="description"></textarea>
+        <input type="date" formControlName="createdAt" id="createdAt" class="form-control"
+          placeholder="Fecha de creación" />
+      </div>
+      <div class="d-grid">
+        <button class="btn btn-info" (click)="saveList()">Guardar</button>
+      </div>
+    </div>
+  </div>
+</form>

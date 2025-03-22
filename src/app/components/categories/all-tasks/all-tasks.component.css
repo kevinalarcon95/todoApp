@@ -1,0 +1,94 @@
+.content {
+  transition: margin-right 0.3s ease;
+  padding: 4rem;
+}
+
+.content.pushed {
+  margin-right: 330px;
+}
+
+.sidebar-panel {
+  position: absolute;
+  top: 0;
+  right: -330px;
+  width: 300px;
+  height: 100vh;
+  background-color: #F4F4F4;
+  transition: right 0.3s ease;
+  overflow-y: auto;
+  z-index: 1050;
+  border-radius: 12px;
+  margin: 1rem;
+}
+
+.sidebar-panel.open {
+  right: 0;
+}
+
+.sidebar-panel .btn-close {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+}
+
+.task-title{
+  font-size: 50px;
+  font-weight: 700;
+  color: #212529;
+}
+
+.task-count{
+  font-size: 26px;
+  font-weight: 600;
+  color: #212529;
+  border: 2px solid #bdbdbd;
+  border-radius: 7px;
+  padding: 0 12px;
+}
+
+.btn-create, .btn-create:active, .btn-create:focus{
+  height: 73px;
+  color: #828282;
+  font-weight: 700;
+  border: 1px solid #bdbdbd;
+  padding: 23px 13px;
+}
+
+.btn-create:hover{
+  background-color: #f5f2f2;
+}
+
+.task-check {
+  font-size: 20px;
+  border: 1px solid #e0e0e0;
+}
+
+.task-check:checked{
+  background-color: #10A94D;
+  border: 1px solid #10A94D;
+}
+
+.task-check:focus{
+  box-shadow: none;
+}
+
+.bi-plus{
+  font-size: 18px;
+}
+
+.task-card{
+  border: none;
+  border-bottom: 1px solid #e0e0e0;
+  background-color: #fff;
+  transition: box-shadow 0.2s ease;
+}
+
+.task-card:hover{
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+}
+
+.btn-more-action{
+  background-color: #f4f4f4;
+  color: #000;
+  padding: 0 10px;
+}
