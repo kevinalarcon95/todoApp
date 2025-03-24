@@ -2,62 +2,60 @@
   <i class="bi bi-list"></i>
 </button>
 
-<div class="sidebar-container d-none d-md-block bg-dark">
-  <div class="sidebar-logo text-center">
-    <a routerLink="/home" class="link-light">
-      <img src="assets/logo.svg" alt="Logo" class="logo">
-    </a>
+<div class="sidebar-container d-none d-md-block">
+  <div class="sidebar-header d-flex justify-content-between align-items-center p-3">
+    <h4 class="text-white">Menú</h4>
   </div>
-  <div class="line"></div>
+
   <ul class="nav nav-pills flex-column mb-auto">
     <li class="nav-item">
-      <a routerLink="/resumen" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" class="nav-link link-light mb-2">
-        <i class="bi bi-globe me-3 icon-home"></i> Resumen
+      <a routerLink="/resumen" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" class="nav-link mb-2">
+        <i class="bi bi-globe me-3 icon"></i> Resumen
       </a>
     </li>
     <li>
-      <a routerLink="/tareas" routerLinkActive="active" class="nav-link link-light mb-2">
-        <i class="bi bi-list-task me-3 icon-all"></i> Todas las tareas
+      <a routerLink="/tareas" routerLinkActive="active" class="nav-link mb-2">
+        <i class="bi bi-list-task me-3 icon"></i> Todas las tareas
       </a>
     </li>
     <li>
-      <a routerLink="/tareas-pendientes" routerLinkActive="active" class="nav-link link-light mb-2">
-        <i class="bi bi-hourglass-split me-3 icon-pending"></i> Tareas pendientes
+      <a routerLink="/tareas-pendientes" routerLinkActive="active" class="nav-link mb-2">
+        <i class="bi bi-hourglass-split me-3 icon"></i> Tareas pendientes
       </a>
     </li>
     <li>
-      <a routerLink="/tareas-completadas" routerLinkActive="active" class="nav-link link-light mb-2">
-        <i class="bi bi-check2-circle me-3 icon-completed"></i> Tareas completadas
+      <a routerLink="/tareas-completadas" routerLinkActive="active" class="nav-link mb-2">
+        <i class="bi bi-check2-circle me-3 icon"></i> Tareas completadas
       </a>
     </li>
   </ul>
 </div>
 
 <!-- Sidebar offcanvas para mobile -->
-<div class="offcanvas offcanvas-start bg-dark text-white" tabindex="-1" id="offcanvasSidebar" aria-labelledby="offcanvasSidebarLabel">
-  <div class="offcanvas-header">
-    <h5 id="offcanvasSidebarLabel">Menú</h5>
+<div class="offcanvas offcanvas-start bg-mobile" tabindex="-1" id="offcanvasSidebar" aria-labelledby="offcanvasSidebarLabel">
+  <div class="offcanvas-header text-white">
+    <h5 id="offcanvasSidebarLabel text-white">Menú</h5>
     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Cerrar"></button>
   </div>
   <div class="offcanvas-body">
     <ul class="nav nav-pills flex-column mb-auto">
       <li class="nav-item">
-        <a routerLink="/home" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" class="nav-link link-light mb-2">
-          <i class="bi bi-house me-3 icon-home"></i> Home
+        <a routerLink="/home" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" class="nav-link mb-2">
+          <i class="bi bi-house me-3 icon-home"></i> Resumen
         </a>
       </li>
       <li>
-        <a routerLink="/tareas" routerLinkActive="active" class="nav-link link-light mb-2">
+        <a routerLink="/tareas" routerLinkActive="active" class="nav-link mb-2">
           <i class="bi bi-list-task me-3 icon-all"></i> Todas las tareas
         </a>
       </li>
       <li>
-        <a routerLink="/tareas-pendientes" routerLinkActive="active" class="nav-link link-light mb-2">
+        <a routerLink="/tareas-pendientes" routerLinkActive="active" class="nav-link mb-2">
           <i class="bi bi-hourglass-split me-3 icon-pending"></i> Tareas pendientes
         </a>
       </li>
       <li>
-        <a routerLink="/tareas-completadas" routerLinkActive="active" class="nav-link link-light mb-2">
+        <a routerLink="/tareas-completadas" routerLinkActive="active" class="nav-link mb-2">
           <i class="bi bi-check2-circle me-3 icon-completed"></i> Tareas completadas
         </a>
       </li>

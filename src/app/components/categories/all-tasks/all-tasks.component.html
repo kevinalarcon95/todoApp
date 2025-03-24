@@ -1,9 +1,23 @@
 <form [formGroup]="taskForm">
   <div class="content" [class.pushed]="isSidebarOpen">
-    <div class="row mb-5">
-      <div class="col-12 d-flex align-items-center gap-5">
-        <h1 class="task-title">Todas las tareas</h1>
-        <span class="task-count">{{ tasks.length }}</span>
+    <div class="task-header">
+      <div class="row mt-md-0 mt-lg-4 mb-5">
+        <div class="col-12">
+          <div class="d-flex align-items-center">
+            <h1 class="task-title flex-grow-1">Todas las tareas</h1>
+            <span class="task-count ms-3">{{ tasks.length }}</span>
+          </div>
+          <div class="line mt-2"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row alert-container" *ngIf="showAlert">
+      <div class="col">
+        <div class="alert alert-success" role="alert">
+          <i class="me-2" [ngClass]="{'bi bi-check-circle': alertType === 'create','bi bi-pencil-square': alertType === 'edit', 'bi bi-trash': alertType === 'delete'}"></i>
+          {{ alertMessage }}
+        </div>
       </div>
     </div>
 
@@ -17,35 +31,40 @@
 
     <div class="row">
       <div class="col-12" *ngFor="let task of tasks; let i = index">
-        <div class="card mb-2 task-card">
-          <div class="card-body d-flex justify-content-between align-items-center">
-            <div class="d-flex flex-column">
-              <div class="form-check">
-                <input class="form-check-input task-check" type="checkbox" [id]="'task-' + i" [checked]="task.status === 'completed'" (change)="toggleTaskStatus(i)">
-                <label class="form-check-label" for="defaultCheck1" [class.text-decoration-line-through]="task.status === TaskStatus.Completed">
+        <div class="task-container">
+          <div class="card mb-3 task-card">
+            <div class="card-body d-flex justify-content-between align-items-start">
+                <div class="d-flex flex-column">
+                <div class="form-check fs-5 fw-bold">
+                  <input class="form-check-input task-check" type="checkbox" [id]="'task-' + i" [checked]="task.status === 'completed'" (change)="toggleTaskStatus(i)">
+                  <label class="form-check-label task-title-card" for="defaultCheck1" [class.text-decoration-line-through]="task.status === TaskStatus.Completed">
                   {{ task.title }}
-                </label>
+                  </label>
+                </div>
+                <a class="small mt-1 task-more" (click)="toggleTaskDetails(i)">
+                  {{ selectedTaskIndex === i ? 'Ver menos' : 'Ver más' }}
+                </a>
+                </div>
+
+              <div class="dropdown">
+                <button class="btn btn-light border-1 btn-more-action" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                  <i class="bi bi-three-dots"></i>
+                </button>
+                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton">
+                  <li>
+                    <button class="dropdown-item" (click)="editTask(task, i)"><i class="bi bi-pencil-square me-2"></i> Editar</button>
+                  </li>
+                  <li>
+                    <button class="dropdown-item text-danger" (click)="deleteTask(i)"><i class="bi bi-trash3 me-2"></i>Eliminar</button>
+                  </li>
+                </ul>
               </div>
             </div>
 
-            <div class="dropdown">
-              <button class="btn btn-light border-1 btn-more-action" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-                <i class="bi bi-three-dots"></i>
-              </button>
-              <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton">
-                <li>
-                  <button class="dropdown-item" (click)="toggleTaskDetails(i)">Editar</button>
-                </li>
-                <li>
-                  <button class="dropdown-item text-danger" (click)="deleteTask(i)">Eliminar</button>
-                </li>
-              </ul>
+            <div class="card-body mx-4" *ngIf="selectedTaskIndex === i">
+              <p class="card-text"><strong>Descripción:</strong> {{ task.description || 'Sin descripción' }}</p>
+              <p class="card-text fw-bold date"><strong><i class="bi bi-calendar-x"></i></strong> {{ task.createdAt | date: 'dd/MM/yyyy' }}</p>
             </div>
-          </div>
-
-          <div class="card-body" *ngIf="selectedTaskIndex === i">
-            <p class="card-text"><strong>Descripción:</strong> {{ task.description || 'Sin descripción' }}</p>
-            <p class="card-text"><strong>Fecha de creación:</strong> {{ task.createdAt | date: 'dd/MM/yyyy' }}</p>
           </div>
         </div>
       </div>
@@ -53,19 +72,27 @@
   </div>
 
   <div class="row sidebar-panel" [class.open]="isSidebarOpen">
-    <div class="col p-3">
+    <div class="col p-4">
       <h5 class="mb-5">{{ taskTitle }}:</h5>
       <button class="btn-close float-end" (click)="closeSidebar()"></button>
-      <div class="mb-3 ">
+      <div class="mb-4">
         <input type="text" class="form-control" formControlName="title" id="listName"
           placeholder="Titulo de la tarea" />
+          <div *ngIf="taskForm.get('title')?.touched && taskForm.get('title')?.invalid">
+            <small *ngIf="taskForm.get('title')?.errors?.['required']">El título es obligatorio.</small>
+            <small *ngIf="taskForm.get('title')?.errors?.['minlength']">El título debe tener al menos 3 caracteres.</small>
+          </div>
         <textarea name="description" id="description" placeholder="Descripción" class="form-control my-3"
           formControlName="description"></textarea>
+          <div *ngIf="taskForm.get('description')?.touched && taskForm.get('description')?.invalid">
+            <small *ngIf="taskForm.get('description')?.errors?.['required']">La descripción es obligatoria.</small>
+            <small *ngIf="taskForm.get('description')?.errors?.['minlength']">La descripción debe tener al menos 5 caracteres.</small>
+          </div>
         <input type="date" formControlName="createdAt" id="createdAt" class="form-control"
           placeholder="Fecha de creación" />
       </div>
       <div class="d-grid">
-        <button class="btn btn-info" (click)="saveList()">Guardar</button>
+        <button class="btn btn-info btn-save" (click)="saveList()"><i class="bi bi-floppy me-2"></i> Guardar</button>
       </div>
     </div>
   </div>

@@ -1,0 +1,25 @@
+.main {
+  width: 100%;
+  min-width: 16.25rem;
+  height: 100vh;
+  background-color: #ffff;
+}
+
+.main-content {
+  margin-left: 22.5rem;
+  padding: 1rem;
+  transition: margin-left 0.3s ease;
+}
+
+@media (max-width: 768px) {
+  .sidebar-container {
+    width: 100%;
+    height: auto;
+    position: absolute;
+    z-index: 1050;
+  }
+
+  .main-content {
+    margin-left: 0;
+  }
+}
