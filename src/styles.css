@@ -1,2 +1,5 @@
 @import "~bootstrap-icons/font/bootstrap-icons.css";
 
+body, p, h1, h2, span {
+  user-select: none;
+}

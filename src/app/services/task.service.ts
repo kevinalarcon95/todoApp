@@ -17,4 +17,16 @@ export class TaskService {
       map(tasks => tasks.sort((a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()))
     );
   }
+
+  saveTask(task: Task): Observable<Task> {
+    return this.http.post<Task>(this.taskUrl, task);
+  }
+
+  updateTask(task: Task): Observable<Task> {
+    return this.http.put<Task>(`${this.taskUrl}/${task.id}`, task);
+  }
+
+  deleteTask(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.taskUrl}/${id}`);
+  }
 }

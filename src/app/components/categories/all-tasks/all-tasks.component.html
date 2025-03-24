@@ -1,13 +1,12 @@
-<form [formGroup]="taskForm">
-  <div class="content" [class.pushed]="isSidebarOpen">
+<div class="content" [class.pushed]="isSidebarOpen">
     <div class="task-header">
-      <div class="row mt-md-0 mt-lg-4 mb-5">
+      <div class="row mt-md-0 mt-lg-3 mb-4 mx-5">
         <div class="col-12">
           <div class="d-flex align-items-center">
             <h1 class="task-title flex-grow-1">Todas las tareas</h1>
             <span class="task-count ms-3">{{ tasks.length }}</span>
           </div>
-          <div class="line mt-2"></div>
+          <div class="line mt-1"></div>
         </div>
       </div>
     </div>
@@ -15,13 +14,42 @@
     <div class="row alert-container" *ngIf="showAlert">
       <div class="col">
         <div class="alert alert-success" role="alert">
-          <i class="me-2" [ngClass]="{'bi bi-check-circle': alertType === 'create','bi bi-pencil-square': alertType === 'edit', 'bi bi-trash': alertType === 'delete'}"></i>
+          <i class="me-2"
+            [ngClass]="{'bi bi-check-circle': alertType === 'create','bi bi-pencil-square': alertType === 'edit', 'bi bi-trash': alertType === 'delete'}"></i>
           {{ alertMessage }}
         </div>
       </div>
     </div>
 
-    <div class="row">
+    <div class="row mb-3 mx-5">
+      <div class="col">
+          <div class="search-container">
+            <span class="search-icon-container">
+              <i class="bi bi-search"></i>
+            </span>
+            <input id="searchTask" type="text" class="form-control task-search" placeholder="Escribe el nombre de la tarea..." [formControl]="searchControl" />
+            <div class="btn-close-falcon-container px-1" data-bs-dismiss="search" *ngIf="showCloseButton">
+              <button class="btn btn-close-falcon p-0" aria-label="Close" (click)="clearInput()">
+                <i class="bi bi-x-lg"></i>
+              </button>
+            </div>
+          </div>
+      </div>
+      <div class="col">
+         <div class="filter-container">
+          <div class="filter-icon-container">
+            <i class="bi bi-funnel me-2"></i>
+          </div>
+          <select id="filterStatus" class="form-control task-filter" [formControl]="filterStatus" (change)="applyFilter()">
+            <option value="">Todas las tareas</option>
+            <option [value]="TaskStatus.Pending">Tareas pendientes</option>
+            <option [value]="TaskStatus.Completed">Tareas completada</option>
+          </select>
+         </div>
+      </div>
+    </div>
+
+    <div class="row mx-5">
       <div class="col-12 d-grid">
         <button class="btn btn-outline-primary mb-3 d-grid d-flex flex-colum btn-create" (click)="openSidebar()">
           <i class="bi bi-plus me-2"></i> Añadir nueva tarea
@@ -29,33 +57,38 @@
       </div>
     </div>
 
-    <div class="row">
-      <div class="col-12" *ngFor="let task of tasks; let i = index">
+    <div class="row mx-5">
+      <div class="col-12" *ngFor="let task of filteredTasks; let i = index">
         <div class="task-container">
           <div class="card mb-3 task-card">
             <div class="card-body d-flex justify-content-between align-items-start">
-                <div class="d-flex flex-column">
+              <div class="d-flex flex-column">
                 <div class="form-check fs-5 fw-bold">
-                  <input class="form-check-input task-check" type="checkbox" [id]="'task-' + i" [checked]="task.status === 'completed'" (change)="toggleTaskStatus(i)">
-                  <label class="form-check-label task-title-card" for="defaultCheck1" [class.text-decoration-line-through]="task.status === TaskStatus.Completed">
-                  {{ task.title }}
+                  <input class="form-check-input task-check" type="checkbox" [id]="'task-' + i"
+                    [checked]="task.status === 'completed'" (change)="toggleTaskStatus(i)">
+                  <label class="form-check-label task-title-card" for="defaultCheck1"
+                    [class.text-decoration-line-through]="task.status === TaskStatus.Completed">
+                    {{ task.title }}
                   </label>
                 </div>
                 <a class="small mt-1 task-more" (click)="toggleTaskDetails(i)">
                   {{ selectedTaskIndex === i ? 'Ver menos' : 'Ver más' }}
                 </a>
-                </div>
+              </div>
 
               <div class="dropdown">
-                <button class="btn btn-light border-1 btn-more-action" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                <button class="btn btn-light border-1 btn-more-action" type="button" id="dropdownMenuButton"
+                  data-bs-toggle="dropdown" aria-expanded="false">
                   <i class="bi bi-three-dots"></i>
                 </button>
                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton">
                   <li>
-                    <button class="dropdown-item" (click)="editTask(task, i)"><i class="bi bi-pencil-square me-2"></i> Editar</button>
+                    <button class="dropdown-item" (click)="editTask(task, i)"><i class="bi bi-pencil-square me-2"></i>
+                      Editar</button>
                   </li>
                   <li>
-                    <button class="dropdown-item text-danger" (click)="deleteTask(i)"><i class="bi bi-trash3 me-2"></i>Eliminar</button>
+                    <button class="dropdown-item text-danger" (click)="deleteTask(i)"><i
+                        class="bi bi-trash3 me-2"></i>Eliminar</button>
                   </li>
                 </ul>
               </div>
@@ -63,9 +96,19 @@
 
             <div class="card-body mx-4" *ngIf="selectedTaskIndex === i">
               <p class="card-text"><strong>Descripción:</strong> {{ task.description || 'Sin descripción' }}</p>
-              <p class="card-text fw-bold date"><strong><i class="bi bi-calendar-x"></i></strong> {{ task.createdAt | date: 'dd/MM/yyyy' }}</p>
+              <p class="card-text fw-bold date"><strong><i class="bi bi-calendar-x"></i></strong> {{ task.createdAt |
+                date: 'dd/MM/yyyy' }}</p>
             </div>
           </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-12 w-100" *ngIf="filteredTasks.length === 0">
+        <div class="alert alert-secondary text-center" role="alert">
+          <i class="bi bi-list-task me-2"></i>
+          No se encontraron tareas.
         </div>
       </div>
     </div>
@@ -73,27 +116,70 @@
 
   <div class="row sidebar-panel" [class.open]="isSidebarOpen">
     <div class="col p-4">
-      <h5 class="mb-5">{{ taskTitle }}:</h5>
+      <form [formGroup]="taskForm">
+      <h5 class="title-form mb-4">{{ taskTitle }}:</h5>
       <button class="btn-close float-end" (click)="closeSidebar()"></button>
-      <div class="mb-4">
-        <input type="text" class="form-control" formControlName="title" id="listName"
-          placeholder="Titulo de la tarea" />
+      <div class="row mb-3">
+        <div class="mb-3">
+          <label for="title" class="form-label">Título<span class="ms-1 required">*</span></label>
+          <input type="text" class="form-control"
+            [ngClass]="{'is-invalid': taskForm.get('title')?.touched && taskForm.get('title')?.invalid}"
+            formControlName="title" id="title" placeholder="Escribe aquí..." />
           <div *ngIf="taskForm.get('title')?.touched && taskForm.get('title')?.invalid">
-            <small *ngIf="taskForm.get('title')?.errors?.['required']">El título es obligatorio.</small>
-            <small *ngIf="taskForm.get('title')?.errors?.['minlength']">El título debe tener al menos 3 caracteres.</small>
+            <small *ngIf="taskForm.get('title')?.errors?.['required']"><span class="text-danger ms-1">El título es
+                obligatorio.</span></small>
+            <small *ngIf="taskForm.get('title')?.errors?.['minlength']"><span class="text-danger ms-1">El título debe
+                tener al menos 3 caracteres.</span></small>
           </div>
-        <textarea name="description" id="description" placeholder="Descripción" class="form-control my-3"
-          formControlName="description"></textarea>
+        </div>
+        <div class="mb-3">
+          <label for="description" class="form-label">Descripción<span class="ms-1 required">*</span></label>
+          <textarea name="description" id="description" placeholder="Escribe aquí..." class="form-control"
+            [ngClass]="{'is-invalid': taskForm.get('description')?.touched && taskForm.get('description')?.invalid}"
+            formControlName="description"></textarea>
           <div *ngIf="taskForm.get('description')?.touched && taskForm.get('description')?.invalid">
-            <small *ngIf="taskForm.get('description')?.errors?.['required']">La descripción es obligatoria.</small>
-            <small *ngIf="taskForm.get('description')?.errors?.['minlength']">La descripción debe tener al menos 5 caracteres.</small>
+            <small *ngIf="taskForm.get('description')?.errors?.['required']"><span class="text-danger ms-1">La
+                descripción es obligatoria.</span></small>
+            <small *ngIf="taskForm.get('description')?.errors?.['minlength']"><span class="text-danger ms-1">La
+                descripción debe tener al menos 5 caracteres.</span></small>
           </div>
-        <input type="date" formControlName="createdAt" id="createdAt" class="form-control"
-          placeholder="Fecha de creación" />
+        </div>
+        <div class="mb-3">
+          <label for="status" class="form-label">Estado<span class="ms-1 required">*</span></label>
+          <select class="form-control" formControlName="status" id="status"
+            [ngClass]="{'is-invalid': taskForm.get('status')?.touched && taskForm.get('status')?.invalid}">
+            <option value="null" disabled>Selecciona un estado</option>
+            <option [value]="TaskStatus.Pending">Pendiente</option>
+            <option [value]="TaskStatus.Completed">Completada</option>
+          </select>
+          <div *ngIf="taskForm.get('status')?.touched && taskForm.get('status')?.invalid">
+            <small>
+              <span class="text-danger ms-1">El estado es obligatorio.</span>
+            </small>
+          </div>
+        </div>
+        <div class="mb-3">
+          <label for="createdAt" class="form-label">Fecha de vencimiento</label>
+          <input type="date" formControlName="createdAt" id="createdAt" class="form-control"
+            placeholder="Fecha de creación" />
+        </div>
       </div>
-      <div class="d-grid">
-        <button class="btn btn-info btn-save" (click)="saveList()"><i class="bi bi-floppy me-2"></i> Guardar</button>
+      <div *ngIf="taskForm.invalid && taskForm.touched" class="text-danger mb-3">
+        <div class="alert alert-danger" role="alert">
+          <i class="bi bi-exclamation-circle me-2"></i>
+          Por favor, completa los campos obligatorios (*).
+        </div>
       </div>
+      <div class="d-flex mt-2" [ngClass]="{'justify-content-between': isEditingTask, 'd-grid': !isEditingTask}">
+        <button class="btn btn-secondary btn-cancel" *ngIf="isEditingTask" [disabled]="!taskForm.dirty"
+          (click)="cancelEdit()">
+          <i class="bi bi-x-square me-2"></i> Cancelar
+        </button>
+        <button class="btn btn-info btn-save" (click)="saveList()" [disabled]="taskForm.invalid || !taskForm.dirty"
+          [ngClass]="{'w-100': !isEditingTask}">
+          <i class="bi bi-floppy me-2"></i> Guardar
+        </button>
+      </div>
+      </form>
     </div>
   </div>
-</form>

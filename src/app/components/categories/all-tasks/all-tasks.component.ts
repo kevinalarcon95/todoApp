@@ -1,6 +1,6 @@
 import { formatDate } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Task, TaskStatus } from 'src/app/models/task.model';
 import { TaskService } from 'src/app/services/task.service';
 
@@ -11,6 +11,7 @@ import { TaskService } from 'src/app/services/task.service';
 })
 export class AllTasksComponent implements OnInit {
   public tasks: Task[] = [];
+  public filteredTasks: Task[] = [];
   public isSidebarOpen: boolean = false;
   public selectedTaskIndex: number | null = null;
   public taskForm: FormGroup;
@@ -20,21 +21,49 @@ export class AllTasksComponent implements OnInit {
   public alertMessage: string = '';
   public showAlert: boolean = false;
   public alertType: 'create' | 'edit' | 'delete' = 'create';
+  public originalTask: Task | null = null;
+  public filterStatus: FormControl;
+  public searchControl: FormControl;
+  public showCloseButton: boolean = false; // Nueva propiedad
 
-  constructor(private taskService: TaskService, private fb: FormBuilder) { }
+  constructor(private taskService: TaskService, private fb: FormBuilder) {
+    this.filterStatus = new FormControl('');
+    this.searchControl = new FormControl('');
+  }
 
   ngOnInit(): void {
     this.taskForm = this.initForm();
     this.getTasks();
+
+    this.filterStatus.valueChanges.subscribe(() => {
+      this.applyFilter();
+    });
+
+    this.searchControl.valueChanges.subscribe((value) => {
+      this.showCloseButton = !!value;
+      this.applyFilter();
+    });
   }
 
   openSidebar(): void {
+    if (this.hasUnsavedChanges()) {
+      if (!confirm('Tienes cambios sin guardar. ¿Estás seguro de que deseas continuar?')) {
+        return;
+      }
+    }
+    this.isEditingTask = false;
     this.isSidebarOpen = true;
     this.taskTitle = 'Nueva tarea';
     this.taskForm.reset();
+    this.originalTask = null;
   }
 
   closeSidebar(): void {
+    if (this.hasUnsavedChanges()) {
+      if (!confirm('Tienes cambios sin guardar. ¿Estás seguro de que deseas cerrar el panel?')) {
+        return;
+      }
+    }
     this.isSidebarOpen = false;
   }
 
@@ -42,7 +71,7 @@ export class AllTasksComponent implements OnInit {
     return this.fb.group({
       title: ['', [Validators.required, Validators.minLength(3)]],
       description: ['', [Validators.required, Validators.minLength(5)]],
-      status: [''],
+      status: ['', Validators.required],
       createdAt: ['']
     });
   }
@@ -55,6 +84,7 @@ export class AllTasksComponent implements OnInit {
     this.taskService.getTasks().subscribe({
       next: (tasks) => {
         this.tasks = tasks;
+        this.filteredTasks = tasks;
         this.sortTasks();
       },
       error: (error) => {
@@ -64,10 +94,10 @@ export class AllTasksComponent implements OnInit {
   }
 
   saveList(): void {
-    if(this.taskForm.invalid){
-      this.showAlertMessage('Por favor, completa el formulario.');
+    if (this.taskForm.invalid) {
       return;
     }
+
     const task: Task = this.taskForm.value;
 
     if (this.isEditingTask && this.selectedTaskIndex !== null) {
@@ -77,11 +107,13 @@ export class AllTasksComponent implements OnInit {
       this.alertType = 'edit';
       this.showAlertMessage('Tarea editada con éxito.');
     } else {
+      task.createdAt = this.taskForm.controls['createdAt'].value ? this.taskForm.controls['createdAt'].value : new Date();
       this.tasks.unshift(task);
       this.alertType = 'create';
       this.showAlertMessage('Tarea creada con éxito.');
     }
-    this.closeSidebar();
+   this.isSidebarOpen = false;
+   this.taskForm.reset();
   }
 
   editTask(task: Task, index: number): void {
@@ -89,6 +121,7 @@ export class AllTasksComponent implements OnInit {
     this.isEditingTask = true;
     this.isSidebarOpen = true;
     this.selectedTaskIndex = index;
+    this.originalTask = { ...task };
     this.taskForm.patchValue({
       ...task,
       createdAt: task.createdAt ? formatDate(new Date(task.createdAt), 'yyyy-MM-dd', 'en') : null,
@@ -109,6 +142,17 @@ export class AllTasksComponent implements OnInit {
   toggleTaskStatus(index: number): void {
     this.tasks[index].status = this.tasks[index].status === TaskStatus.Pending ? TaskStatus.Completed : TaskStatus.Pending;
     this.sortTasks();
+    this.applyFilter();
+  }
+
+  cancelEdit(): void {
+    if (this.selectedTaskIndex !== null) {
+      const originalTask = this.tasks[this.selectedTaskIndex];
+      this.taskForm.patchValue({
+        ...originalTask,
+        createdAt: originalTask.createdAt ? formatDate(new Date(originalTask.createdAt), 'yyyy-MM-dd', 'en') : null,
+      });
+    }
   }
 
   private showAlertMessage(message: string): void {
@@ -117,6 +161,33 @@ export class AllTasksComponent implements OnInit {
     setTimeout(() => {
       this.showAlert = false;
     }, 3000);
+  }
+
+  applyFilter(): void {
+    const status = this.filterStatus.value;
+    const searchTerm = this.searchControl.value ? this.searchControl.value.toLowerCase() : '';
+
+    this.filteredTasks = this.tasks.filter(task => {
+      const matchesStatus = status ? task.status === status : true;
+      const matchesSearch = task.title.toLowerCase().includes(searchTerm);
+      return matchesStatus && matchesSearch;
+    });
+  }
+
+  clearInput(): void {
+    this.searchControl.setValue('');
+    this.applyFilter();
+  }
+
+  private hasUnsavedChanges(): boolean {
+    if (!this.isEditingTask) {
+      return !this.taskForm.pristine;
+    }
+    if (this.originalTask) {
+      const currentValues = this.taskForm.value;
+      return JSON.stringify(this.originalTask) !== JSON.stringify(currentValues);
+    }
+    return false;
   }
 
 }
