@@ -5,7 +5,7 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { TaskService } from './task.service';
 import { Task, TaskStatus } from '../models/task.model';
 import { DashboardComponent } from '../components/dashboard/dashboard.component';
-import { AllTasksComponent } from '../components/categories/all-tasks/all-tasks.component';
+import { AllTasksComponent } from '../components/tasks/all-tasks/all-tasks.component';
 import { ChartTaskComponent } from '../components/chart-task/chart-task.component';
 
 describe('TaskService', () => {
