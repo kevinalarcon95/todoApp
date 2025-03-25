@@ -2,19 +2,11 @@
   "tasks": [
     {
       "id": "1",
-      "title": "Buy groceries 2",
+      "title": "Buy groceries",
       "description": "Milk, Bread, Eggs and Butter",
       "status": "pending",
       "createdAt": "2023-03-22T10:00:00Z",
-      "completedAt": "2023-03-29"
-    },
-    {
-      "id": "3",
-      "title": "Call plumber",
-      "description": "Fix the kitchen sink leak",
-      "status": "pending",
-      "createdAt": "2023-03-23T08:45:00Z",
-      "completedAt": "2023-03-30"
+      "completedAt": "2023-03-28"
     },
     {
       "id": "6",
@@ -49,20 +41,20 @@
       "createdAt": "2025-03-25T02:27:28.771Z"
     },
     {
-      "id": "3704",
-      "title": "Read a book",
-      "description": "esto es una prueba",
-      "status": "pending",
-      "completedAt": "2025-03-25",
-      "createdAt": "2025-03-25T15:05:40.877Z"
+      "id": "bffa",
+      "title": "dededed",
+      "description": "dededede",
+      "status": "completed",
+      "completedAt": "2025-03-08",
+      "createdAt": "2025-03-25T18:03:49.080Z"
     },
     {
-      "id": "d4c7",
-      "title": "dededed",
-      "description": "dededededeed",
-      "status": "pending",
-      "completedAt": "2025-03-26",
-      "createdAt": "2025-03-25T16:20:04.100Z"
+      "id": "6e1d",
+      "title": "Buy groceries",
+      "description": "Milk, Bread, Eggs and Butter",
+      "status": "completed",
+      "completedAt": "2023-03-28",
+      "createdAt": "2025-03-25T18:05:56.961Z"
     }
   ]
 }

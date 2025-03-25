@@ -4,13 +4,13 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { Task, TaskStatus } from 'src/app/models/task.model';
 import { TaskService } from 'src/app/services/task.service';
 import { ConfirmModalComponent } from '../../confirm-modal/confirm-modal.component';
-import { distinct, distinctUntilChanged, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-all-tasks',
   templateUrl: './all-tasks.component.html',
   styleUrls: ['./all-tasks.component.css']
 })
+
 export class AllTasksComponent implements OnInit {
   @ViewChild(ConfirmModalComponent) confirmModal!: ConfirmModalComponent;
   public tasks: Task[] = [];
@@ -23,7 +23,7 @@ export class AllTasksComponent implements OnInit {
   public isEditingTask: boolean = false;
   public alertMessage: string = '';
   public showAlert: boolean = false;
-  public alertType: 'create' | 'edit' | 'delete' = 'create';
+  public actionType: 'create' | 'edit' | 'delete' = 'create';
   public originalTask: Task | null = null;
   public filterStatus: FormControl;
   public searchControl: FormControl;
@@ -94,7 +94,6 @@ export class AllTasksComponent implements OnInit {
 
     this.isSidebarOpen = false;
     this.taskForm.reset();
-    this.resetOriginalFormValue();
   }
 
   /**
@@ -106,7 +105,7 @@ export class AllTasksComponent implements OnInit {
     this.taskService.updateTask(updatedTask).subscribe({
       next: (updated) => {
         this.tasks[this.selectedTaskIndex!] = updated;
-        this.alertType = 'edit';
+        this.actionType = 'edit';
         this.showAlertMessage('Tarea actualizada correctamente.');
         this.getTasks();
         this.applyFilter();
@@ -126,7 +125,7 @@ export class AllTasksComponent implements OnInit {
     this.taskService.saveTask(task).subscribe({
       next: (newTask) => {
         this.tasks.unshift(newTask);
-        this.alertType = 'create';
+        this.actionType = 'create';
         this.showAlertMessage('Tarea creada correctamente.');
       },
       error: (error) => console.error('Error saving task:', error)
@@ -142,7 +141,7 @@ export class AllTasksComponent implements OnInit {
     this.taskService.deleteTask(taskId).subscribe({
       next: () => {
         this.tasks.splice(index, 1);
-        this.alertType = 'delete';
+        this.actionType = 'delete';
         this.sortTasks();
         this.showAlertMessage('Tarea eliminada correctamente.');
       },
@@ -190,6 +189,7 @@ export class AllTasksComponent implements OnInit {
       ...task,
       completedAt: task.createdAt ? formatDate(new Date(task.completedAt), 'yyyy-MM-dd', 'en') : null,
     });
+    this.resetOriginalFormValue();
   }
 
   /**
@@ -205,6 +205,7 @@ export class AllTasksComponent implements OnInit {
     this.taskTitle = 'Nueva tarea';
     this.taskForm.reset();
     this.originalTask = null;
+    this.resetOriginalFormValue();
   }
 
   /**
@@ -216,8 +217,8 @@ export class AllTasksComponent implements OnInit {
       return;
     }
     this.isSidebarOpen = false;
+    this.resetOriginalFormValue();
   }
-
 
   /**
    * Handles the confirmation action for the task editing process.
@@ -233,9 +234,11 @@ export class AllTasksComponent implements OnInit {
    * @returns {void}
    */
   onConfirm(): void {
+    console.log(this.actionType);
     this.isEditingTask = false;
     this.isSidebarOpen = false;
     this.taskTitle = 'Nueva tarea';
+    this.resetOriginalFormValue();
     this.taskForm.reset();
     this.originalTask = null;
     this.confirmModal.close();
@@ -308,7 +311,7 @@ export class AllTasksComponent implements OnInit {
   initForm(): FormGroup {
     return this.fb.group({
       title: ['', [Validators.required, Validators.minLength(3)]],
-      description: ['', [Validators.required, Validators.minLength(5)]],
+      description: ['', [Validators.required]],
       status: ['', Validators.required],
       completedAt: [null, Validators.required],
     });

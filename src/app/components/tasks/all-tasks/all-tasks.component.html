@@ -3,7 +3,7 @@
     <div class="row mt-md-0 mt-lg-3 mb-4 mx-5">
       <div class="col-12">
         <div class="d-flex align-items-center">
-          <h1 class="task-title flex-grow-1">Todas las tareas</h1>
+          <h1 class="task-title flex-grow-1">Tareas</h1>
           <span class="task-count ms-3">
             {{ filterStatus.value ? countTasksByStatus(filterStatus.value) : tasks.length }}
           </span>
@@ -17,7 +17,7 @@
     <div class="col">
       <div class="alert alert-success" role="alert">
         <i class="me-2"
-          [ngClass]="{'bi bi-check-circle': alertType === 'create','bi bi-pencil-square': alertType === 'edit', 'bi bi-trash': alertType === 'delete'}"></i>
+          [ngClass]="{'bi bi-check-circle': actionType === 'create','bi bi-pencil-square': actionType === 'edit', 'bi bi-trash': actionType === 'delete'}"></i>
         {{ alertMessage }}
       </div>
     </div>
@@ -100,19 +100,21 @@
 
           <div class="card-body mx-4" *ngIf="selectedTaskIndex === i">
             <p class="card-text"><strong>Descripción:</strong> {{ task.description || 'Sin descripción' }}</p>
-            <p class="card-text fw-bold date"><strong><i class="bi bi-calendar-x"></i></strong> {{ task.completedAt |
-              date: 'dd/MM/yyyy' }}</p>
+           <div class="d-flex gap-3">
+            <p class="card-text fw-bold date"><strong><i class="me-2 bi bi-calendar-week"></i> Creado: </strong> {{ task.completedAt | date: 'dd/MM/yyyy' }}</p>
+            <p class="card-text fw-bold date"><strong><i class="me-2 bi bi-clock"></i> Vence: </strong> {{ task.completedAt | date: 'dd/MM/yyyy' }}</p>
+           </div>
           </div>
         </div>
       </div>
     </div>
   </div>
 
-  <div class="row">
+  <div class="row mx-5">
     <div class="col-12 w-100" *ngIf="filteredTasks.length === 0">
       <div class="alert alert-secondary text-center" role="alert">
         <i class="bi bi-list-task me-2"></i>
-        No se encontraron tareas.
+        <span class="fw-bold fs-5 text-secondary">No se encontraron tareas</span>
       </div>
     </div>
   </div>
@@ -144,8 +146,6 @@
           <div *ngIf="taskForm.get('description')?.touched && taskForm.get('description')?.invalid">
             <small *ngIf="taskForm.get('description')?.errors?.['required']"><span class="text-danger ms-1">La
                 descripción es obligatoria.</span></small>
-            <small *ngIf="taskForm.get('description')?.errors?.['minlength']"><span class="text-danger ms-1">La
-                descripción debe tener al menos 5 caracteres.</span></small>
           </div>
         </div>
         <div class="mb-3">
@@ -163,7 +163,7 @@
           </div>
         </div>
         <div class="mb-3">
-          <label for="completedAt" class="form-label">Fecha de vencimiento</label>
+          <label for="completedAt" class="form-label">Fecha de vencimiento<span class="ms-1 required">*</span></label>
           <input type="date" formControlName="completedAt" id="completedAt" class="form-control"
             placeholder="Fecha de creación"
             [ngClass]="{'is-invalid': taskForm.get('completedAt')?.touched && taskForm.get('completedAt')?.invalid }" />
@@ -183,8 +183,8 @@
       </div>
       <div class="d-flex mt-2" [ngClass]="{'justify-content-between': isEditingTask, 'd-grid': !isEditingTask}">
         <button class="btn btn-secondary btn-cancel" *ngIf="isEditingTask" [disabled]="!taskForm.dirty"
-          (click)="cancelEdit()">
-          <i class="bi bi-x-square me-2"></i> Cancelar
+          (click)="cancelEdit()" [disabled]="!hasUnsavedChanges()">
+          <i class="bi bi-arrow-clockwise me-2"></i> Restablecer
         </button>
         <button class="btn btn-info btn-save" (click)="saveTask()" [disabled]="taskForm.invalid || !hasUnsavedChanges()"
           [ngClass]="{'w-100': !isEditingTask}">

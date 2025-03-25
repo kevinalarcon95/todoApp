@@ -8,12 +8,12 @@ import { Task } from '../models/task.model';
 })
 export class TaskService {
 
-  private taskUrl = 'http://localhost:3000/tasks';
+  private taskUrl = 'http://localhost:5076';
 
   constructor(private http: HttpClient) { }
 
   getTasks(): Observable<Task[]> {
-    return this.http.get<Task[]>(this.taskUrl).pipe(
+    return this.http.get<Task[]>(`${this.taskUrl}/api/TaskApi`).pipe(
       map(tasks => tasks.sort((a, b) => {
         const dateA = a.createdAt ? new Date(a.createdAt).getTime() : 0;
         const dateB = b.createdAt ? new Date(b.createdAt).getTime() : 0;
@@ -23,15 +23,15 @@ export class TaskService {
   }
 
   saveTask(task: Task): Observable<Task> {
-    return this.http.post<Task>(this.taskUrl, task);
+    return this.http.post<Task>(`${this.taskUrl}/api/TaskApi`, task);
   }
 
   updateTask(task: Task): Observable<Task> {
-    return this.http.put<Task>(`${this.taskUrl}/${task.id}`, task);
+    return this.http.put<Task>(`${this.taskUrl}/api/TaskApi/${task.id}`, task);
   }
 
   deleteTask(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.taskUrl}/${id}`);
+    return this.http.delete<void>(`${this.taskUrl}/api/TaskApi/${id}`);
   }
 
 }

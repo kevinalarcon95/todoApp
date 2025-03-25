@@ -75,7 +75,7 @@ export class DashboardComponent implements OnInit {
         return {
           taskTitle: task.title,
           status: task.status === TaskStatus.Completed ? 'Completada' : 'Pendiente',
-          date: new Date(task.completedAt).toLocaleDateString('es-ES')
+          date: new Date().toLocaleDateString('es-ES')
         };
       }
       return null;
