@@ -8,13 +8,17 @@ import { Task } from '../models/task.model';
 })
 export class TaskService {
 
-  private taskUrl = 'assets/tasks.json';
+  private taskUrl = 'http://localhost:3000/tasks';
 
   constructor(private http: HttpClient) { }
 
   getTasks(): Observable<Task[]> {
     return this.http.get<Task[]>(this.taskUrl).pipe(
-      map(tasks => tasks.sort((a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()))
+      map(tasks => tasks.sort((a, b) => {
+        const dateA = a.createdAt ? new Date(a.createdAt).getTime() : 0;
+        const dateB = b.createdAt ? new Date(b.createdAt).getTime() : 0;
+        return dateA - dateB;
+      }))
     );
   }
 
@@ -29,4 +33,5 @@ export class TaskService {
   deleteTask(id: number): Observable<void> {
     return this.http.delete<void>(`${this.taskUrl}/${id}`);
   }
+
 }

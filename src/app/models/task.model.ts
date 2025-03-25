@@ -10,5 +10,5 @@ export interface Task {
   description?: string;
   status: TaskStatus;
   createdAt: Date;
-  updatedAt?: Date;
+  completedAt?: Date;
 }

@@ -4,7 +4,9 @@
         <div class="col-12">
           <div class="d-flex align-items-center">
             <h1 class="task-title flex-grow-1">Todas las tareas</h1>
-            <span class="task-count ms-3">{{ tasks.length }}</span>
+            <span class="task-count ms-3">
+              {{ filterStatus.value ? countTasksByStatus(filterStatus.value) : tasks.length }}
+            </span>
           </div>
           <div class="line mt-1"></div>
         </div>
@@ -96,7 +98,7 @@
 
             <div class="card-body mx-4" *ngIf="selectedTaskIndex === i">
               <p class="card-text"><strong>Descripción:</strong> {{ task.description || 'Sin descripción' }}</p>
-              <p class="card-text fw-bold date"><strong><i class="bi bi-calendar-x"></i></strong> {{ task.createdAt |
+              <p class="card-text fw-bold date"><strong><i class="bi bi-calendar-x"></i></strong> {{ task.completedAt |
                 date: 'dd/MM/yyyy' }}</p>
             </div>
           </div>
@@ -159,9 +161,14 @@
           </div>
         </div>
         <div class="mb-3">
-          <label for="createdAt" class="form-label">Fecha de vencimiento</label>
-          <input type="date" formControlName="createdAt" id="createdAt" class="form-control"
-            placeholder="Fecha de creación" />
+          <label for="completedAt" class="form-label">Fecha de vencimiento</label>
+          <input type="date" formControlName="completedAt" id="completedAt" class="form-control"
+            placeholder="Fecha de creación" [ngClass]="{'is-invalid': taskForm.get('completedAt')?.touched && taskForm.get('completedAt')?.invalid }" />
+          <div *ngIf="taskForm.get('completedAt')?.touched && taskForm.get('completedAt')?.touched && taskForm.get('completedAt')?.invalid">
+            <small>
+              <span class="text-danger ms-1">La fecha de vencimiento es obligatoria.</span>
+            </small>
+          </div>
         </div>
       </div>
       <div *ngIf="taskForm.invalid && taskForm.touched" class="text-danger mb-3">
@@ -175,7 +182,7 @@
           (click)="cancelEdit()">
           <i class="bi bi-x-square me-2"></i> Cancelar
         </button>
-        <button class="btn btn-info btn-save" (click)="saveList()" [disabled]="taskForm.invalid || !taskForm.dirty"
+        <button class="btn btn-info btn-save" (click)="saveTask()" [disabled]="taskForm.invalid || !taskForm.dirty"
           [ngClass]="{'w-100': !isEditingTask}">
           <i class="bi bi-floppy me-2"></i> Guardar
         </button>
