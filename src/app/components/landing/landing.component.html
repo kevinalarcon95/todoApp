@@ -11,7 +11,7 @@
         <div class="d-flex align-items-center mb-2">
           <i class="bi bi-check-circle fs-3 text-success me-2"></i>
           <div>
-            <h6 class="mb-0 fw-bold">11 Tareas finalizadas</h6>
+            <h6 class="mb-0 fw-bold">{{ completedTasksCount }} Tareas finalizadas</h6>
             <small class="text-muted">en los últimos 7 días</small>
           </div>
         </div>
@@ -23,7 +23,7 @@
         <div class="d-flex align-items-center mb-2">
           <i class="bi bi-arrow-repeat fs-3 text-primary me-2"></i>
           <div>
-            <h6 class="mb-0 fw-bold">18 Tareas actualizadas</h6>
+            <h6 class="mb-0 fw-bold">{{ updatedTasksCount }} Tareas actualizadas</h6>
             <small class="text-muted">en los últimos 7 días</small>
           </div>
         </div>
@@ -35,7 +35,7 @@
         <div class="d-flex align-items-center mb-2">
           <i class="bi bi-plus-circle fs-3 text-warning me-2"></i>
           <div>
-            <h6 class="mb-0 fw-bold">9 Tareas creadas</h6>
+            <h6 class="mb-0 fw-bold">{{ createdTasksCount }} Tareas creadas</h6>
             <small class="text-muted">en los últimos 7 días</small>
           </div>
         </div>
@@ -47,7 +47,7 @@
         <div class="d-flex align-items-center mb-2">
           <i class="bi bi-exclamation-triangle fs-3 text-danger me-2"></i>
           <div>
-            <h6 class="mb-0 fw-bold">0 Tareas vencen pronto</h6>
+            <h6 class="mb-0 fw-bold">{{ tasksDueSoonCount }} Tareas vencen pronto</h6>
             <small class="text-muted">en los próximos 7 días</small>
           </div>
         </div>
@@ -56,32 +56,29 @@
   </div>
 
   <div class="row g-3 mt-4">
-    <div class="col-md-6">
+    <div class="col-md-4">
       <div class="rounded-3 border p-3 h-100 bg-light box-shadow">
         <h5 class="fw-bold">Resumen de estado</h5>
         <p class="mb-2">
           Obtén una instantánea del estado de tus tareas.
           <a routerLink="/tareas">Ver todas las tareas</a>
         </p>
-         <app-chart-task></app-chart-task>
+         <app-chart-task [taskStats]="taskStats"></app-chart-task>
       </div>
     </div>
 
-    <div class="col-md-6">
+    <div class="col-md-8">
       <div class="rounded-3 border p-3 h-100 bg-light box-shadow">
         <h5 class="fw-bold">Actividad reciente</h5>
         <p class="mb-3">
           Mantente al día de los cambios en todas tus tareas.
         </p>
         <ul class="list-unstyled">
-          <li class="mb-2">
-            Cambiaste la tarea <span class="text-info"><strong>Insertar tarea</strong></span> como <span class="text-success"><strong>Completada</strong></span> el día <span><strong>12/04/2025</strong></span>
-          </li>
-          <li class="mb-2">
-            Cambiaste la tarea <span class="text-info"><strong>Insertar tarea</strong></span> como <span class="text-warning"><strong>Pendiente</strong></span> el día <span><strong>12/04/2025</strong></span>
-          </li>
-          <li class="mb-2">
-            Cambiaste la tarea <span class="text-info"><strong>Insertar tarea</strong></span> como <span class="text-primary"><strong>En progreso</strong></span> el día <span><strong>12/04/2025</strong></span>
+          <li class="mb-2" *ngFor="let activity of recentActivities">
+            Cambiaste la tarea <span class="text-info"><strong>{{ activity.taskTitle }}</strong></span> como
+            <span [ngClass]="{'text-success': activity.status === 'Completada', 'text-warning': activity.status === 'Pendiente'}">
+              <strong>{{ activity.status }}</strong>
+            </span> el día <span><strong>{{ activity.date }}</strong></span>
           </li>
         </ul>
       </div>
