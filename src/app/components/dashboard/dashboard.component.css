@@ -1,0 +1,53 @@
+.container-fluid {
+  padding: 0 4rem;
+}
+
+.task-title {
+  font-size: 50px;
+  font-weight: 700;
+  color: #444444;
+}
+
+.task-info{
+  font-size: 16px;
+  font-weight: 700;
+  color: #FF6767;
+}
+
+.task-more{
+  color: #6f6f6f;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.line {
+  border-bottom: 3px solid #FF6767;
+  width: 100%;
+  max-width: 110px;
+}
+
+.box-shadow {
+  box-shadow: 0 4px 6px 0 rgba(0, 0, 0, 0.1);
+}
+
+.text-truncate {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+ul.list-unstyled {
+  max-width: 560px;
+}
+
+@media (max-width: 768px) {
+  .container-fluid {
+    padding: 0 2rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .container-fluid {
+    padding: 0 1rem;
+  }
+}

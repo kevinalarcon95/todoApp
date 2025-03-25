@@ -3,11 +3,11 @@ import { Task, TaskStatus } from 'src/app/models/task.model';
 import { TaskService } from 'src/app/services/task.service';
 
 @Component({
-  selector: 'app-landing',
-  templateUrl: './landing.component.html',
-  styleUrls: ['./landing.component.css']
+  selector: 'app-dashboard',
+  templateUrl: './dashboard.component.html',
+  styleUrls: ['./dashboard.component.css']
 })
-export class LandingComponent implements OnInit {
+export class DashboardComponent implements OnInit {
   listTask: Task[] = [];
   completedTasksCount: number = 0;
   updatedTasksCount: number = 0;
