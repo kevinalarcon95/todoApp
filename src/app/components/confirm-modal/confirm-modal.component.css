@@ -1,0 +1,65 @@
+.modal-dialog {
+  top: 20%;
+  border-radius: 12px;
+}
+
+.modal-header {
+  border-bottom-width: 2px;
+}
+
+.modal-title {
+  padding-left: 1.5rem;
+  color: var(--blue-secundary);
+  font-family: "TitilliumWeb-SemiBold", sans-serif;
+  font-size: 23px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+}
+
+.modal-body {
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  color: var(--blue-primary);
+  font-family: "OpenSans-Regular", sans-serif;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  padding: 2rem 2rem 2rem 2rem;
+}
+
+.btn-primary {
+  font-size: 16px;
+  background-color: #FF4D4D;
+  border-color: #FF4D4D;
+  border-radius: 12px;
+  border: 1px solid #FF4D4D;
+  color: #fff;
+}
+
+.btn-primary:hover {
+  background-color: #FF6767;
+  border-color: #FF6767;
+  border: 1px solid #FF6767;
+}
+
+.btn-secondary {
+  font-size: 16px;
+  background-color: #5C636A;
+  border-color: #5C636A;
+  border: 1px solid #5C636A;
+  border-radius: 12px;
+  color: #fff;
+}
+
+.btn-secondary:hover {
+  background-color: #6F6F6F;
+  border-color: #6F6F6F;
+  border: 1px solid #6F6F6F;
+}
+
+.fade {
+  background-color: rgba(165, 125, 132, 0.25);
+}

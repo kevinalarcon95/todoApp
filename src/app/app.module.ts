@@ -11,6 +11,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ChartTaskComponent } from './components/chart-task/chart-task.component';
+import { ConfirmModalComponent } from './components/confirm-modal/confirm-modal.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { ChartTaskComponent } from './components/chart-task/chart-task.component
     DashboardComponent,
     SidebarComponent,
     AllTasksComponent,
-    ChartTaskComponent
+    ChartTaskComponent,
+    ConfirmModalComponent
   ],
   imports: [
     BrowserModule,

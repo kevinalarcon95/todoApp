@@ -1,8 +1,10 @@
 import { formatDate } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Task, TaskStatus } from 'src/app/models/task.model';
 import { TaskService } from 'src/app/services/task.service';
+import { ConfirmModalComponent } from '../../confirm-modal/confirm-modal.component';
+import { distinct, distinctUntilChanged, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-all-tasks',
@@ -10,6 +12,7 @@ import { TaskService } from 'src/app/services/task.service';
   styleUrls: ['./all-tasks.component.css']
 })
 export class AllTasksComponent implements OnInit {
+  @ViewChild(ConfirmModalComponent) confirmModal!: ConfirmModalComponent;
   public tasks: Task[] = [];
   public filteredTasks: Task[] = [];
   public isSidebarOpen: boolean = false;
@@ -25,6 +28,7 @@ export class AllTasksComponent implements OnInit {
   public filterStatus: FormControl;
   public searchControl: FormControl;
   public showCloseButton: boolean = false;
+  private originalFormValue: Task | null = null;
 
   constructor(private taskService: TaskService, private fb: FormBuilder) {
     this.filterStatus = new FormControl('');
@@ -37,6 +41,12 @@ export class AllTasksComponent implements OnInit {
   ngOnInit(): void {
     this.taskForm = this.initForm();
     this.getTasks();
+
+    this.taskForm.valueChanges.subscribe(() => {
+      if (!this.originalFormValue) {
+        this.originalFormValue = this.taskForm.getRawValue(); // Captura el estado inicial
+      }
+    });
 
     // Apply filters when the filter status changes
     this.filterStatus.valueChanges.subscribe(() => {
@@ -84,6 +94,7 @@ export class AllTasksComponent implements OnInit {
 
     this.isSidebarOpen = false;
     this.taskForm.reset();
+    this.resetOriginalFormValue();
   }
 
   /**
@@ -96,7 +107,7 @@ export class AllTasksComponent implements OnInit {
       next: (updated) => {
         this.tasks[this.selectedTaskIndex!] = updated;
         this.alertType = 'edit';
-        this.showAlertMessage('Task updated successfully.');
+        this.showAlertMessage('Tarea actualizada correctamente.');
         this.getTasks();
         this.applyFilter();
       },
@@ -116,7 +127,7 @@ export class AllTasksComponent implements OnInit {
       next: (newTask) => {
         this.tasks.unshift(newTask);
         this.alertType = 'create';
-        this.showAlertMessage('Task created successfully.');
+        this.showAlertMessage('Tarea creada correctamente.');
       },
       error: (error) => console.error('Error saving task:', error)
     });
@@ -133,7 +144,7 @@ export class AllTasksComponent implements OnInit {
         this.tasks.splice(index, 1);
         this.alertType = 'delete';
         this.sortTasks();
-        this.showAlertMessage('Task deleted successfully.');
+        this.showAlertMessage('Tarea eliminada correctamente.');
       },
       error: (error) => {
         console.error('Error deleting task:', error);
@@ -154,7 +165,7 @@ export class AllTasksComponent implements OnInit {
     this.taskService.updateTask(updatedTask).subscribe({
       next: (updated) => {
         this.tasks[index] = updated;
-        this.showAlertMessage('Task status updated successfully.');
+        this.showAlertMessage('Tarea actualizada.');
         this.getTasks();
       },
       error: (error) => {
@@ -170,7 +181,7 @@ export class AllTasksComponent implements OnInit {
    * @param index The index of the task to edit.
    */
   editTask(task: Task, index: number): void {
-    this.taskTitle = 'Edit Task';
+    this.taskTitle = 'Editar tarea';
     this.isEditingTask = true;
     this.isSidebarOpen = true;
     this.selectedTaskIndex = index;
@@ -186,13 +197,12 @@ export class AllTasksComponent implements OnInit {
    */
   openSidebar(): void {
     if (this.hasUnsavedChanges()) {
-      if (!confirm('You have unsaved changes. Are you sure you want to continue?')) {
-        return;
-      }
+      this.confirmModal.open();
+      return;
     }
     this.isEditingTask = false;
     this.isSidebarOpen = true;
-    this.taskTitle = 'New Task';
+    this.taskTitle = 'Nueva tarea';
     this.taskForm.reset();
     this.originalTask = null;
   }
@@ -202,11 +212,33 @@ export class AllTasksComponent implements OnInit {
    */
   closeSidebar(): void {
     if (this.hasUnsavedChanges()) {
-      if (!confirm('You have unsaved changes. Are you sure you want to close the panel?')) {
-        return;
-      }
+      this.confirmModal.open();
+      return;
     }
     this.isSidebarOpen = false;
+  }
+
+
+  /**
+   * Handles the confirmation action for the task editing process.
+   *
+   * This method performs the following actions:
+   * - Disables the task editing mode.
+   * - Closes the sidebar.
+   * - Resets the task title to its default value ("New Task").
+   * - Resets the task form to its initial state.
+   * - Clears the reference to the original task.
+   * - Closes the confirmation modal dialog.
+   *
+   * @returns {void}
+   */
+  onConfirm(): void {
+    this.isEditingTask = false;
+    this.isSidebarOpen = false;
+    this.taskTitle = 'Nueva tarea';
+    this.taskForm.reset();
+    this.originalTask = null;
+    this.confirmModal.close();
   }
 
   /**
@@ -250,6 +282,7 @@ export class AllTasksComponent implements OnInit {
         completedAt: originalTask.createdAt ? formatDate(new Date(originalTask.createdAt), 'yyyy-MM-dd', 'en') : null,
       });
     }
+    this.resetOriginalFormValue();
   }
 
   /**
@@ -294,17 +327,22 @@ export class AllTasksComponent implements OnInit {
   }
 
   /**
+   * Resets the original state of the form when saving or canceling.
+   */
+  private resetOriginalFormValue(): void {
+    this.originalFormValue = this.taskForm.getRawValue() as Task;
+  }
+
+  /**
    * Checks if there are unsaved changes in the form.
    * @returns True if there are unsaved changes, false otherwise.
    */
-  private hasUnsavedChanges(): boolean {
+   hasUnsavedChanges(): boolean {
     if (!this.isEditingTask) {
       return !this.taskForm.pristine;
     }
-    if (this.originalTask) {
-      const currentValues = this.taskForm.value;
-      return JSON.stringify(this.originalTask) !== JSON.stringify(currentValues);
-    }
-    return false;
+
+    const currentFormValue = this.taskForm.getRawValue() as Task;
+    return JSON.stringify(currentFormValue) !== JSON.stringify(this.originalFormValue);
   }
 }
