@@ -32,9 +32,9 @@ export class ChartTaskComponent implements OnInit {
    * Labels for the doughnut chart.
    */
   private chartLabels: string[] = [
-    'Tareas pendientes',
-    'Tareas completadas',
-    'Tareas vencidas',
+    'Pendientes',
+    'Completadas',
+    'Vencidas',
   ];
 
   /**
