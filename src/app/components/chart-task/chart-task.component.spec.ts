@@ -1,6 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
-import { ChartTaskComponent } from './chart-task.component';
+import { TaskService } from 'src/app/services/task.service';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { ChartTaskComponent } from '../chart-task/chart-task.component';
+import { DashboardComponent } from '../dashboard/dashboard.component';
 
 describe('ChartTaskComponent', () => {
   let component: ChartTaskComponent;
@@ -8,7 +10,9 @@ describe('ChartTaskComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [ChartTaskComponent]
+      imports: [HttpClientTestingModule],
+      declarations: [ChartTaskComponent],
+      providers: [TaskService]
     });
     fixture = TestBed.createComponent(ChartTaskComponent);
     component = fixture.componentInstance;
@@ -17,5 +21,11 @@ describe('ChartTaskComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+});
+
+beforeEach(() => {
+  TestBed.configureTestingModule({
+    declarations: [DashboardComponent, ChartTaskComponent],
   });
 });

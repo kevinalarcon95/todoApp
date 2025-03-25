@@ -1,6 +1,9 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { AllTasksComponent } from './all-tasks.component';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { TaskService } from 'src/app/services/task.service';
+import { ReactiveFormsModule } from '@angular/forms';
 
 describe('AllTasksComponent', () => {
   let component: AllTasksComponent;
@@ -8,7 +11,9 @@ describe('AllTasksComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [AllTasksComponent]
+      imports: [HttpClientTestingModule, ReactiveFormsModule],
+      declarations: [AllTasksComponent],
+      providers: [TaskService]
     });
     fixture = TestBed.createComponent(AllTasksComponent);
     component = fixture.componentInstance;
