@@ -1,31 +1,72 @@
-<<<<<<< HEAD
-# todoApp
-=======
 # ToDoApp
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 16.0.2.
+ToDoApp es una aplicación de gestión de tareas desarrollada con Angular. Permite a los usuarios crear, listar, editar y eliminar tareas, además de visualizar estadísticas de las tareas mediante gráficos.
 
-## Development server
+## Características
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+- **Gestión de tareas**: Crear, listar, editar y eliminar tareas.
+- **Estadísticas**: Visualización de estadísticas de tareas completadas, pendientes y vencidas mediante gráficos.
+- **Interfaz responsiva**: Diseño adaptable para dispositivos móviles y de escritorio.
+- **Pruebas unitarias**: Cobertura de pruebas para componentes principales y servicios.
 
-## Code scaffolding
+## Tecnologías utilizadas
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+- **Framework**: Angular 16.0.2
+- **Librerías**:
+  - Bootstrap para estilos.
+  - Chart.js para gráficos.
+- **Herramientas de pruebas**:
+  - Karma y Jasmine para pruebas unitarias.
+  - HttpClientTestingModule para pruebas de servicios.
 
-## Build
+## Instalación
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+1. Clona el repositorio:
+   ```bash
+   git clone https://github.com/tu-usuario/ToDoApp.git
+   cd ToDoApp
 
-## Running unit tests
+2. Instalación de dependencias:
+    ```bash
+    npm install 
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+3. Inicia el servidor de desarrollo:
+    ```bash
+    ng serve
 
-## Running end-to-end tests
+## Scripts disponibles
+ - ng serve: Inicia el servidor de desarrollo.
+ - ng build: Construye la aplicación para producción en la carpeta dist/.
+ - ng test: Ejecuta las pruebas unitarias con Karma.
+ - ng lint: Analiza el código para detectar problemas de estilo y errores.
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+## Estructura del proyecto
+src/
+├── app/
+│   ├── components/
+│   │   ├── dashboard/          # Componente principal del dashboard
+│   │   ├── sidebar/            # Componente de la barra lateral
+│   │   ├── chart-task/         # Componente para gráficos de tareas
+│   │   └── all-tasks/          # Componente para listar todas las tareas
+│   ├── services/
+│   │   └── task.service.ts     # Servicio para la gestión de tareas
+│   ├── models/
+│   │   └── task.model.ts       # Modelo de datos para las tareas
+│   └── app.module.ts           # Módulo principal de la aplicación
+├── assets/                     # Recursos estáticos
+└── environments/               # Configuración de entornos
 
-## Further help
+## Pruebas
+# Pruebas unitarias
+Se han implementado pruebas unitarias para los siguientes componentes y servicios:
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
->>>>>>> 76945ca (initial commit)
+TaskService:
+
+Listar tareas (getTasks).
+Crear tareas (saveTask).
+Editar tareas (updateTask).
+Eliminar tareas (deleteTask).
+Manejo de errores HTTP.
+
+
+
