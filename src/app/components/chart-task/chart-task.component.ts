@@ -71,7 +71,6 @@ export class ChartTaskComponent implements OnInit {
    * Initializes the doughnut chart with the current task statistics.
    */
   initCanvas() {
-    console.log('Task stats for chart:', this.taskStats);
     const canvas = document.getElementById('chartDoughnut') as HTMLCanvasElement;
     if (canvas) {
       const ctx = canvas.getContext('2d');
@@ -98,7 +97,6 @@ export class ChartTaskComponent implements OnInit {
    */
   getTasks() {
     this.taskService.getTasks().subscribe((data: Task[]) => {
-      console.log('Tasks received from backend:', data);
       this.listTask = data;
       this.calculateTaskStats();
       this.initCanvas();
@@ -122,7 +120,5 @@ export class ChartTaskComponent implements OnInit {
     this.taskStats.overdue = this.listTask.filter(task =>
       task.status === TaskStatus.Pending && formatDate(new Date(task.createdAt)) < formatDate(now)
     ).length;
-
-    console.log('Calculated task stats:', this.taskStats);
   }
 }
