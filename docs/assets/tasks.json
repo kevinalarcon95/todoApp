@@ -1,0 +1,60 @@
+{
+  "tasks": [
+    {
+      "id": "1",
+      "title": "Buy groceries",
+      "description": "Milk, Bread, Eggs and Butter",
+      "status": "pending",
+      "createdAt": "2023-03-22T10:00:00Z",
+      "completedAt": "2023-03-28"
+    },
+    {
+      "id": "6",
+      "title": "Plan weekend getaway",
+      "description": "Research hotels and attractions for a weekend trip",
+      "status": "completed",
+      "createdAt": "2023-03-25T14:00:00Z",
+      "completedAt": "2023-03-30"
+    },
+    {
+      "id": "a803",
+      "title": "Read a book",
+      "description": "leer libro",
+      "status": "completed",
+      "completedAt": "2025-03-25",
+      "createdAt": "2025-03-25T02:05:35.176Z"
+    },
+    {
+      "id": "9a78",
+      "title": "Read a book",
+      "description": "dededed",
+      "status": "completed",
+      "completedAt": "2025-04-02",
+      "createdAt": "2025-03-25T02:27:17.425Z"
+    },
+    {
+      "id": "aa14",
+      "title": "Read a book",
+      "description": "deded",
+      "status": "completed",
+      "completedAt": "2025-03-24",
+      "createdAt": "2025-03-25T02:27:28.771Z"
+    },
+    {
+      "id": "bffa",
+      "title": "dededed",
+      "description": "dededede",
+      "status": "completed",
+      "completedAt": "2025-03-08",
+      "createdAt": "2025-03-25T18:03:49.080Z"
+    },
+    {
+      "id": "6e1d",
+      "title": "Buy groceries",
+      "description": "Milk, Bread, Eggs and Butter",
+      "status": "completed",
+      "completedAt": "2023-03-28",
+      "createdAt": "2025-03-25T18:05:56.961Z"
+    }
+  ]
+}
