@@ -332,3 +332,33 @@
     width: 60%;
   }
 }
+
+@media (max-width: 768px) {
+  .task-card {
+    border: 1px solid #afaeae;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+    padding: 1rem;
+  }
+
+  .task-title-card {
+    font-size: 18px;
+    font-weight: 600;
+  }
+
+  .task-count {
+    font-size: 20px;
+    padding: 0 8px;
+  }
+
+  .task-more {
+    font-size: 14px;
+    padding-left: 1rem;
+  }
+
+  .date {
+    font-size: 12px;
+  }
+}

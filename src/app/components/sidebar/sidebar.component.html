@@ -30,12 +30,12 @@
   <div class="offcanvas-body">
     <ul class="nav nav-pills flex-column mb-auto">
       <li class="nav-item">
-        <a routerLink="/dashboard" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" class="nav-link mb-2">
+        <a routerLink="/dashboard" (click)="closeMobileSidebar()" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" class="nav-link mb-2" style="cursor: pointer;">
           <i class="bi bi-columns-gap me-3 icon"></i> Dashboard
         </a>
       </li>
       <li>
-        <a routerLink="/all-task" routerLinkActive="active" class="nav-link mb-2">
+        <a routerLink="/all-task" (click)="closeMobileSidebar()" routerLinkActive="active" class="nav-link mb-2" style="cursor: pointer;">
           <i class="bi bi-list-task me-3 icon"></i> Todas las tareas
         </a>
       </li>
