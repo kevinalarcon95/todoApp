@@ -8,7 +8,7 @@ import { Task } from '../models/task.model';
 })
 export class TaskService {
 
-  private taskUrl = 'http://localhost:5076';
+  private taskUrl = 'https://todo-backend-net.azurewebsites.net';
 
   constructor(private http: HttpClient) { }
 
