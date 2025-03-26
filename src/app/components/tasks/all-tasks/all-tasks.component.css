@@ -303,6 +303,47 @@
   background-color: #F4F4F4;
 }
 
+/* Sidebar Panel Styling */
+.sidebar-panel {
+  position: fixed;
+  right: -100%;
+  top: 0;
+  bottom: 0;
+  width: 100%;
+  max-width: 450px;
+  background-color: #fff;
+  box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
+  transition: right 0.3s ease;
+  z-index: 1050;
+  margin: 0;
+  overflow: hidden;
+}
+
+.sidebar-panel.open {
+  right: 0;
+}
+
+.sidebar-content {
+  height: 100%;
+  overflow-y: auto;
+  padding-bottom: 75px; /* Para dar espacio a los botones en la parte inferior */
+}
+
+/* Ajustes responsivos para dispositivos móviles */
+@media (max-width: 576px) {
+  .sidebar-panel {
+    max-width: 100%;
+  }
+
+  .task-header {
+    padding-bottom: 10px;
+  }
+
+  .btn-create {
+    margin-top: 10px;
+  }
+}
+
 @media (max-width: 1130px) {
   .task-title {
     font-size: 40px;
